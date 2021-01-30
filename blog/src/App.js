@@ -1,25 +1,43 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import {Container, Row, Col} from "react-bootstrap";
+import PostForm from './PostForm';
+import PostList from "./PostList";
 
 function App() {
+  const [posts, setPosts] = useState([])
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/posts')
+      .then(response => response.json())
+      .then(json => setPosts(json))
+  }, [])
+
   return (
-    <Container>
-  <Row className="justify-content-md-center">
-    <Col xs lg="2">
-      <hi>Hello Aidan!</hi>
-    </Col>
-    <Col md="auto">Variable width content</Col>
-    <Col xs lg="2">
-      3 of 3
-    </Col>
-  </Row>
-  <Row>
-    <Col>1 of 3</Col>
-    <Col md="auto">Variable width content</Col>
-    <Col xs lg="2">
-      3 of 3
-    </Col>
-  </Row>
-</Container>
+  <Container>
+    <Row 
+      className="justify-content-md-center"
+      style = {{marginTop:60}}>
+      <Col xs lg="2">
+        <h1 style = {{textAlign: "center"}}>Blog App</h1>
+      </Col>
+    </Row>
+
+    <Row 
+      className="justify-content-md-center"
+      style = {{marginTop:60}}>
+      <Col xs lg="2">
+        <PostForm/>
+      </Col>
+    </Row>
+
+    <Row 
+      className="justify-content-md-center"
+      style = {{marginTop:60}}>
+      <Col xs lg="2">
+        <PostList posts = {posts}/>
+      </Col>
+    </Row>
+  </Container>
   );
 }
 
